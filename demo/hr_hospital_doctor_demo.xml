@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <odoo>
+        <record id="doctor_001" model="hr_hospital.doctor">
+            <field name="name">Dr. Mariia Romanchyck(Марія Романчук)</field>
+            <field name="specialty">All</field>
+        </record>
+        <record id="doctor_002" model="hr_hospital.doctor">
+            <field name="name">Dr. Ivan Fediv (Іван Федів)</field>
+            <field name="specialty">Cold</field>
+        </record>
+        <record id="doctor_003" model="hr_hospital.doctor">
+            <field name="name">Dr. Oleksiy Ivanchuk (Олексій Іванчук)</field>
+            <field name="specialty">Flu</field>
+        </record>
+    </odoo>

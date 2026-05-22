@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <odoo>
+        <record id="visit_demo_001" model="hr_hospital.visit">
+            <field name="visit_date" eval="datetime.now().strftime('%Y-%m-%d %H:%M:%S')"/>
+            <field name="doctor_id" ref="doctor_001"/>
+            <field name="patient_id" ref="patient_a_i"/>
+            <field name="disease_ids" eval="[(4, ref('hr_hospital.disease_flu'))]"/>
+            <field name="recommendations">Take bed rest and drink plenty of fluids. (Відпочинок та пити багато води)</field>
+        </record>
+    </odoo>
