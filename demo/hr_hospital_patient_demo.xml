@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <odoo noupdate="1">
+        <record id="patient_a_i" model="hr_hospital.patient">
+            <field name="name">Andrii Ivaniv (Андрій Іванів)</field>
+            <field name="birth_date">1982-05-15</field>
+            <field name="phone">+380501111111</field>
+        </record>
+        <record id="patient_i_p" model="hr_hospital.patient">
+            <field name="name">Iana Petriv(Яна Петрів)</field>
+            <field name="birth_date">1991-05-20</field>
+            <field name="phone">+380670000000</field>
+        </record>
+        <record id="patient_a_m" model="hr_hospital.patient">
+            <field name="name">Anna Melnuchyk (Анна Мельничук)</field>
+            <field name="birth_date">1979-12-30</field>
+            <field name="phone">+380933333333</field>
+        </record>
+    </odoo>
