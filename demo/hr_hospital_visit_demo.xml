@@ -1,10 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-    <odoo>
-        <record id="visit_demo_001" model="hr_hospital.visit">
-            <field name="visit_date" eval="datetime.now().strftime('%Y-%m-%d %H:%M:%S')"/>
-            <field name="doctor_id" ref="doctor_001"/>
-            <field name="patient_id" ref="patient_a_i"/>
-            <field name="disease_ids" eval="[(4, ref('hr_hospital.disease_flu'))]"/>
-            <field name="recommendations">Take bed rest and drink plenty of fluids. (Відпочинок та пити багато води)</field>
-        </record>
-    </odoo>
+<odoo>
+    <record id="visit_demo_001" model="hr_hospital.visit">
+        <field name="scheduled_date" eval="datetime(2026, 5, 20, 9, 0, 0)"/>
+        <field name="visit_date" eval="datetime(2026, 5, 20, 9, 30, 0)"/>
+        <field name="doctor_id" ref="doctor_001"/>
+        <field name="patient_id" ref="patient_a_i"/>
+        <field name="state">done</field>
+        <field name="disease_id" ref="hr_hospital.disease_flu"/>
+        <field name="recommendations">Take bed rest and drink plenty of fluids.</field>
+    </record>
+    <record id="visit_demo_002" model="hr_hospital.visit">
+        <field name="scheduled_date" eval="datetime(2026, 5, 27, 10, 0, 0)"/>
+        <field name="doctor_id" ref="doctor_002"/>
+        <field name="patient_id" ref="patient_i_p"/>
+        <field name="state">planned</field>
+        <field name="disease_id" ref="hr_hospital.disease_cold"/>
+    </record>
+    <record id="visit_demo_003" model="hr_hospital.visit">
+        <field name="scheduled_date" eval="datetime(2026, 5, 18, 14, 0, 0)"/>
+        <field name="visit_date" eval="datetime(2026, 5, 18, 14, 15, 0)"/>
+        <field name="doctor_id" ref="doctor_003"/>
+        <field name="patient_id" ref="patient_a_m"/>
+        <field name="state">done</field>
+        <field name="disease_id" ref="hr_hospital.disease_bronchitis"/>
+        <field name="recommendations">Antibiotics course for 7 days.</field>
+    </record>
+    <record id="visit_demo_004" model="hr_hospital.visit">
+        <field name="scheduled_date" eval="datetime(2026, 5, 22, 11, 0, 0)"/>
+        <field name="doctor_id" ref="doctor_001"/>
+        <field name="patient_id" ref="patient_i_p"/>
+        <field name="state">cancelled</field>
+    </record>
+    <record id="visit_demo_005" model="hr_hospital.visit">
+        <field name="scheduled_date" eval="datetime(2026, 5, 28, 15, 0, 0)"/>
+        <field name="doctor_id" ref="doctor_002"/>
+        <field name="patient_id" ref="patient_a_m"/>
+        <field name="state">planned</field>
+    </record>
+    <record id="visit_demo_006" model="hr_hospital.visit">
+        <field name="scheduled_date" eval="datetime(2026, 5, 15, 9, 0, 0)"/>
+        <field name="visit_date" eval="datetime(2026, 5, 15, 9, 45, 0)"/>
+        <field name="doctor_id" ref="doctor_003"/>
+        <field name="patient_id" ref="patient_a_i"/>
+        <field name="state">done</field>
+        <field name="disease_id" ref="hr_hospital.disease_high"/>
+        <field name="recommendations">Monitor blood pressure daily.</field>
+    </record>
+</odoo>

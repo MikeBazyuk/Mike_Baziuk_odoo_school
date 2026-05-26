@@ -5,37 +5,50 @@
         <field name="model">hr_hospital.visit</field>
         <field name="arch" type="xml">
             <form string="Patient Visit">
+                <header>
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="planned,done,cancelled"/>
+                </header>
                 <sheet>
                     <group>
                         <group>
-                            <field name="visit_date"/>
                             <field name="patient_id"/>
+                            <field name="doctor_id" options="{'no_create': True}"/>
+                            <field name="disease_id" options="{'no_create': True}"/>
                         </group>
                         <group>
-                            <field name="doctor_id" options="{'no_create': True}"/>
+                            <field name="scheduled_date"/>
+                            <field name="visit_date"/>
                             <field name="active"/>
                         </group>
                     </group>
-                    <group string="Medical Details">
-                        <field name="disease_ids" widget="many2many_tags" options="{'no_create': True}"/>
-                        <field name="recommendations" placeholder="Enter treatment plan, prescription, and other recommendations..."/>
+                    <group string="Recommendations">
+                        <field name="recommendations" nolabel="1"
+                               placeholder="Enter treatment plan, prescription, and other recommendations..."/>
+                    </group>
+                    <group string="Summary / Epikryz">
+                        <field name="summary" nolabel="1"/>
                     </group>
                 </sheet>
             </form>
         </field>
     </record>
+
     <record id="view_hr_hospital_visit_list" model="ir.ui.view">
         <field name="name">hr_hospital.visit.list</field>
         <field name="model">hr_hospital.visit</field>
         <field name="arch" type="xml">
             <list string="Patient Visits">
+                <field name="scheduled_date"/>
                 <field name="visit_date"/>
                 <field name="patient_id"/>
                 <field name="doctor_id"/>
-                <field name="disease_ids" widget="many2many_tags"/>
+                <field name="disease_id"/>
+                <field name="state"/>
             </list>
         </field>
     </record>
+
     <record id="action_hr_hospital_visit" model="ir.actions.act_window">
         <field name="name">Візити</field>
         <field name="res_model">hr_hospital.visit</field>

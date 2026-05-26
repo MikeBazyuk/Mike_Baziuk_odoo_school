@@ -1,5 +1,9 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_hr_hospital_doctor_user,access_hr_hospital_doctor_user,model_hr_hospital_doctor,base.group_user,1,1,1,1
-access_hr_hospital_patient_user,access_hr_hospital_patient_user,model_hr_hospital_patient,base.group_user,1,1,1,1
-access_hr_hospital_disease_user,access_hr_hospital_disease_user,model_hr_hospital_disease,base.group_user,1,1,1,1
-access_hr_hospital_visit_user,access_hr_hospital_visit_user,model_hr_hospital_visit,base.group_user,1,1,1,1
+access_hr_hospital_doctor_user,hr_hospital.doctor user,model_hr_hospital_doctor,base.group_user,1,1,1,1
+access_hr_hospital_patient_user,hr_hospital.patient user,model_hr_hospital_patient,base.group_user,1,1,1,1
+access_hr_hospital_disease_user,hr_hospital.disease user,model_hr_hospital_disease,base.group_user,1,1,1,1
+access_hr_hospital_visit_user,hr_hospital.visit user,model_hr_hospital_visit,base.group_user,1,1,1,1
+access_hospital_doctor_category_user,hospital.doctor.category user,model_hospital_doctor_category,base.group_user,1,1,1,1
+access_hospital_doctor_history_user,hospital.doctor.history user,model_hospital_doctor_history,base.group_user,1,1,1,1
+access_mass_reassign_doctor_wizard_user,mass.reassign.doctor.wizard user,model_mass_reassign_doctor_wizard,base.group_user,1,1,1,1
+access_visit_report_wizard_user,visit.report.wizard user,model_visit_report_wizard,base.group_user,1,1,1,1
