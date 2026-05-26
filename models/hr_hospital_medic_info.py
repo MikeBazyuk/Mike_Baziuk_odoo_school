@@ -1,7 +1,10 @@
+import logging
+
 from dateutil.relativedelta import relativedelta
 
 from odoo import api, fields, models
 
+_logger = logging.getLogger(__name__)
 
 class MedicInfo(models.AbstractModel):
     _name = 'hospital.medic.info'

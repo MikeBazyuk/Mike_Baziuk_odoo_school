@@ -17,8 +17,10 @@ class DiseaseReportWizard(models.TransientModel):
         comodel_name='hr_hospital.disease',
         string='Хвороби',
     )
-    date_from = fields.Date(string='Дата з', required=True, default=lambda self: fields.Date.today().replace(day=1))
-    date_to = fields.Date(string='Дата по', required=True, default=fields.Date.today)
+    date_from = fields.Date(string='Дата з', required=True,
+                            default=lambda self: fields.Date.today().replace(day=1))
+    date_to = fields.Date(string='Дата по', required=True,
+                          default=fields.Date.today)
 
     def action_generate_report(self):
         domain = []

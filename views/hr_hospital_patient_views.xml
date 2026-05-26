@@ -1,20 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+    <!-- ───── FORM ───── -->
     <record id="view_hr_hospital_patient_form" model="ir.ui.view">
         <field name="name">hr_hospital.patient.form</field>
         <field name="model">hr_hospital.patient</field>
         <field name="arch" type="xml">
-            <form string="Patient">
+            <form string="Пацієнт">
+                <header>
+                    <button name="action_create_visit" type="object"
+                            string="Новий візит" class="btn-primary"/>
+                </header>
                 <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_show_visits" type="object"
+                                class="oe_stat_button" icon="fa-calendar">
+                            <field name="visit_count" widget="statinfo"
+                                   string="Візити"/>
+                        </button>
+                    </div>
                     <group>
-                        <group string="General">
+                        <group string="Загальне">
                             <field name="name"/>
                             <field name="phone"/>
                             <field name="insurance_number"/>
-                            <field name="personal_doctor_id" options="{'no_create': True}"/>
+                            <field name="personal_doctor_id"
+                                   options="{'no_create': True}"/>
                             <field name="active"/>
                         </group>
-                        <group string="Medical Info">
+                        <group string="Медичні дані">
                             <field name="gender"/>
                             <field name="birth_date"/>
                             <field name="age"/>
@@ -22,7 +35,7 @@
                         </group>
                     </group>
                     <notebook>
-                        <page string="Doctor History">
+                        <page string="Історія лікарів">
                             <field name="doctor_history_ids">
                                 <list>
                                     <field name="doctor_id"/>
@@ -38,11 +51,12 @@
         </field>
     </record>
 
+    <!-- ───── LIST ───── -->
     <record id="view_hr_hospital_patient_list" model="ir.ui.view">
         <field name="name">hr_hospital.patient.list</field>
         <field name="model">hr_hospital.patient</field>
         <field name="arch" type="xml">
-            <list string="Patients">
+            <list string="Пацієнти">
                 <field name="name"/>
                 <field name="birth_date"/>
                 <field name="phone"/>
@@ -51,6 +65,31 @@
         </field>
     </record>
 
+    <!-- ───── SEARCH ───── -->
+    <record id="view_hr_hospital_patient_search" model="ir.ui.view">
+        <field name="name">hr_hospital.patient.search</field>
+        <field name="model">hr_hospital.patient</field>
+        <field name="arch" type="xml">
+            <search string="Пошук пацієнтів">
+                <field name="name" string="ПІБ"
+                       filter_domain="[('name', 'ilike', self)]"/>
+                <field name="phone" string="Телефон"
+                       filter_domain="[('phone', 'ilike', self)]"/>
+                <field name="personal_doctor_id" string="Лікар"/>
+                <separator/>
+                <filter name="active" string="Активні"
+                        domain="[('active', '=', True)]"/>
+                <group expand="0" string="Групувати за">
+                    <filter name="group_by_doctor" string="Персональний лікар"
+                            context="{'group_by': 'personal_doctor_id'}"/>
+                    <filter name="group_by_gender" string="Стать"
+                            context="{'group_by': 'gender'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- ───── ACTION ───── -->
     <record id="action_hr_hospital_patient" model="ir.actions.act_window">
         <field name="name">Пацієнти</field>
         <field name="res_model">hr_hospital.patient</field>

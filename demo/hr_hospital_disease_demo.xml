@@ -1,27 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-    <odoo noupdate="1">
-        <record id="disease_high" model="hr_hospital.disease">
-            <field name="name">Actue</field>
-            <field name="description">Actue infections</field>
-            <field name="code">ABC</field>
-            <field name="color">2</field>
-        </record>
-        <record id="disease_flu" model="hr_hospital.disease">
-            <field name="name">Flu</field>
-            <field name="description">Influenza virus infection</field>
-            <field name="code">A01</field>
-            <field name="color">3</field>
-        </record>
-        <record id="disease_cold" model="hr_hospital.disease">
-            <field name="name">Cold</field>
-            <field name="description">Acute respiratory viral infection</field>
-            <field name="code">B02</field>
-            <field name="color">3</field>
-        </record>
-        <record id="disease_bronchitis" model="hr_hospital.disease">
-            <field name="name">Bronchitis</field>
-            <field name="description">Inflammation of the lining of bronchial tubes</field>
-            <field name="code">C03</field>
-            <field name="color">3</field>
-        </record>
-    </odoo>
+<odoo>
+    <record id="demo_disease_respiratory" model="hr_hospital.disease">
+        <field name="name">Respiratory Diseases</field>
+        <field name="code">R00</field>
+        <field name="description">Diseases of the respiratory system</field>
+    </record>
+    <record id="demo_disease_viral" model="hr_hospital.disease">
+        <field name="name">Viral Respiratory</field>
+        <field name="code">R01</field>
+        <field name="parent_id" ref="demo_disease_respiratory"/>
+    </record>
+    <record id="demo_disease_bacterial" model="hr_hospital.disease">
+        <field name="name">Bacterial Respiratory</field>
+        <field name="code">R02</field>
+        <field name="parent_id" ref="demo_disease_respiratory"/>
+    </record>
+    <record id="demo_disease_influenza" model="hr_hospital.disease">
+        <field name="name">Influenza</field>
+        <field name="code">R01-1</field>
+        <field name="parent_id" ref="demo_disease_viral"/>
+    </record>
+    <record id="demo_disease_pneumonia" model="hr_hospital.disease">
+        <field name="name">Pneumonia</field>
+        <field name="code">R02-1</field>
+        <field name="parent_id" ref="demo_disease_bacterial"/>
+    </record>
+</odoo>

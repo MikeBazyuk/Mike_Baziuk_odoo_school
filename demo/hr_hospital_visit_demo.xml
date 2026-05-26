@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+    <!-- Block 3 demo records -->
     <record id="visit_demo_001" model="hr_hospital.visit">
         <field name="scheduled_date" eval="datetime(2026, 5, 20, 9, 0, 0)"/>
         <field name="visit_date" eval="datetime(2026, 5, 20, 9, 30, 0)"/>
@@ -45,5 +46,59 @@
         <field name="state">done</field>
         <field name="disease_id" ref="hr_hospital.disease_high"/>
         <field name="recommendations">Monitor blood pressure daily.</field>
+    </record>
+
+    <!-- Block 4 demo records (6 additional) -->
+    <record id="visit_demo_007" model="hr_hospital.visit">
+        <field name="scheduled_date" eval="datetime(2026, 4, 5, 9, 0, 0)"/>
+        <field name="visit_date" eval="datetime(2026, 4, 5, 9, 20, 0)"/>
+        <field name="doctor_id" ref="doctor_001"/>
+        <field name="patient_id" ref="patient_a_m"/>
+        <field name="state">done</field>
+        <field name="disease_id" ref="hr_hospital.disease_flu"/>
+        <field name="recommendations">Bed rest for 5 days, antipyretics.</field>
+    </record>
+    <record id="visit_demo_008" model="hr_hospital.visit">
+        <field name="scheduled_date" eval="datetime(2026, 4, 12, 11, 0, 0)"/>
+        <field name="visit_date" eval="datetime(2026, 4, 12, 11, 30, 0)"/>
+        <field name="doctor_id" ref="doctor_002"/>
+        <field name="patient_id" ref="patient_a_i"/>
+        <field name="state">done</field>
+        <field name="disease_id" ref="hr_hospital.disease_cold"/>
+        <field name="recommendations">Vitamin C supplementation.</field>
+    </record>
+    <record id="visit_demo_009" model="hr_hospital.visit">
+        <field name="scheduled_date" eval="datetime(2026, 3, 20, 14, 0, 0)"/>
+        <field name="visit_date" eval="datetime(2026, 3, 20, 14, 40, 0)"/>
+        <field name="doctor_id" ref="doctor_003"/>
+        <field name="patient_id" ref="patient_i_p"/>
+        <field name="state">done</field>
+        <field name="disease_id" ref="hr_hospital.disease_bronchitis"/>
+        <field name="recommendations">Expectorants and steam inhalation.</field>
+    </record>
+    <record id="visit_demo_010" model="hr_hospital.visit">
+        <field name="scheduled_date" eval="datetime(2026, 3, 25, 10, 0, 0)"/>
+        <field name="doctor_id" ref="doctor_001"/>
+        <field name="patient_id" ref="patient_i_p"/>
+        <field name="state">planned</field>
+        <field name="disease_id" ref="hr_hospital.disease_high"/>
+    </record>
+    <record id="visit_demo_011" model="hr_hospital.visit">
+        <field name="scheduled_date" eval="datetime(2026, 2, 14, 9, 0, 0)"/>
+        <field name="visit_date" eval="datetime(2026, 2, 14, 9, 15, 0)"/>
+        <field name="doctor_id" ref="doctor_002"/>
+        <field name="patient_id" ref="patient_a_m"/>
+        <field name="state">done</field>
+        <field name="disease_id" ref="hr_hospital.disease_flu"/>
+        <field name="recommendations">Oseltamivir 75mg twice daily for 5 days.</field>
+    </record>
+    <record id="visit_demo_012" model="hr_hospital.visit">
+        <field name="scheduled_date" eval="datetime(2026, 2, 28, 16, 0, 0)"/>
+        <field name="visit_date" eval="datetime(2026, 2, 28, 16, 10, 0)"/>
+        <field name="doctor_id" ref="doctor_003"/>
+        <field name="patient_id" ref="patient_a_i"/>
+        <field name="state">done</field>
+        <field name="disease_id" ref="hr_hospital.disease_cold"/>
+        <field name="recommendations">Nasal drops and throat lozenges.</field>
     </record>
 </odoo>

@@ -5,7 +5,7 @@
     'website': 'https://odoo.school/',
     'category': 'Customizations',
     'license': 'OPL-1',
-    'version': '19.0.2.1.0',
+    'version': '19.0.2.4.0',
 
     'depends': [
         'base',
