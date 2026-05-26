@@ -1,30 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-    <odoo>
-         <menuitem id="menu_hr_hospital_root"
-                  name="Hospital"
-                  sequence="10"/>
+<odoo>
+    <menuitem id="menu_hr_hospital_root"
+              name="Hospital"
+              sequence="10"/>
 
-        <menuitem id="menu_hr_hospital_patients"
-                  name="Пацієнти"
-                  parent="menu_hr_hospital_root"
-                  action="action_hr_hospital_patient"
-                  sequence="10"/>
+    <menuitem id="menu_hr_hospital_patients"
+              name="Пацієнти"
+              parent="menu_hr_hospital_root"
+              action="action_hr_hospital_patient"
+              sequence="10"/>
 
-        <menuitem id="menu_hr_hospital_doctors"
-                  name="Лікарі"
-                  parent="menu_hr_hospital_root"
-                  action="action_hr_hospital_doctor"
-                  sequence="20"/>
+    <menuitem id="menu_hr_hospital_doctors"
+              name="Лікарі"
+              parent="menu_hr_hospital_root"
+              action="action_hr_hospital_doctor"
+              sequence="20"/>
 
-        <menuitem id="menu_hr_hospital_diseases"
-                  name="Хвороби"
-                  parent="menu_hr_hospital_root"
-                  action="action_hr_hospital_disease"
-                  sequence="30"/>
+    <menuitem id="menu_hr_hospital_diseases"
+              name="Хвороби"
+              parent="menu_hr_hospital_root"
+              action="action_hr_hospital_disease"
+              sequence="30"/>
 
-        <menuitem id="menu_hr_hospital_visits"
-                  name="Візити"
-                  parent="menu_hr_hospital_root"
-                  action="action_hr_hospital_visit"
-                  sequence="40"/>
-    </odoo>
+    <menuitem id="menu_hr_hospital_visits"
+              name="Візити"
+              parent="menu_hr_hospital_root"
+              action="action_hr_hospital_visit"
+              sequence="40"/>
+
+    <menuitem id="menu_hr_hospital_doctor_history"
+              name="Історія лікарів"
+              parent="menu_hr_hospital_root"
+              action="action_hospital_doctor_history"
+              sequence="50"/>
+
+    <menuitem id="menu_hr_hospital_config"
+              name="Налаштування"
+              parent="menu_hr_hospital_root"
+              sequence="90"/>
+
+    <menuitem id="menu_hr_hospital_doctor_categories"
+              name="Кваліфікації лікарів"
+              parent="menu_hr_hospital_config"
+              action="action_hospital_doctor_category"
+              sequence="10"/>
+</odoo>

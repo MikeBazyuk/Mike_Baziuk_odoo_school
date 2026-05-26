@@ -3,8 +3,12 @@ Odoo19
 With new First feature
 
 Add Lesson2
-
 Odoo School: Lesson 2 HR_Hospital
+
+Add Lesson3
+Odoo School: Lesson 3 HR_Hospital
+
+
 Installation
 To install this module, you need to:
 

@@ -7,16 +7,32 @@
             <form string="Patient">
                 <sheet>
                     <group>
-                        <group>
+                        <group string="General">
                             <field name="name"/>
-                            <field name="birth_date"/>
-                        </group>
-                        <group>
                             <field name="phone"/>
+                            <field name="insurance_number"/>
                             <field name="personal_doctor_id" options="{'no_create': True}"/>
                             <field name="active"/>
                         </group>
+                        <group string="Medical Info">
+                            <field name="gender"/>
+                            <field name="birth_date"/>
+                            <field name="age"/>
+                            <field name="blood_group"/>
+                        </group>
                     </group>
+                    <notebook>
+                        <page string="Doctor History">
+                            <field name="doctor_history_ids">
+                                <list>
+                                    <field name="doctor_id"/>
+                                    <field name="appointment_date"/>
+                                    <field name="change_date"/>
+                                    <field name="active"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
                 </sheet>
             </form>
         </field>

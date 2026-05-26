@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <record id="category_intern" model="hospital.doctor.category">
+        <field name="name">Лікар-інтерн</field>
+        <field name="sequence">1</field>
+    </record>
+    <record id="category_specialist" model="hospital.doctor.category">
+        <field name="name">Лікар-спеціаліст</field>
+        <field name="sequence">2</field>
+    </record>
+    <record id="category_senior" model="hospital.doctor.category">
+        <field name="name">Лікар вищої категорії</field>
+        <field name="sequence">3</field>
+    </record>
+</odoo>
