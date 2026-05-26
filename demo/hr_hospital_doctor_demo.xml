@@ -1,15 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-    <odoo>
-        <record id="doctor_001" model="hr_hospital.doctor">
-            <field name="name">Dr. Mariia Romanchyck(Марія Романчук)</field>
-            <field name="specialty">All</field>
-        </record>
-        <record id="doctor_002" model="hr_hospital.doctor">
-            <field name="name">Dr. Ivan Fediv (Іван Федів)</field>
-            <field name="specialty">Cold</field>
-        </record>
-        <record id="doctor_003" model="hr_hospital.doctor">
-            <field name="name">Dr. Oleksiy Ivanchuk (Олексій Іванчук)</field>
-            <field name="specialty">Flu</field>
-        </record>
-    </odoo>
+<odoo>
+    <record id="doctor_001" model="hr_hospital.doctor">
+        <field name="name">Dr. Mariia Romanchyck(Марія Романчук)</field>
+        <field name="specialty">All</field>
+        <field name="category_id" ref="hr_hospital.category_senior"/>
+    </record>
+    <record id="doctor_002" model="hr_hospital.doctor">
+        <field name="name">Dr. Ivan Fediv (Іван Федів)</field>
+        <field name="specialty">Cold</field>
+        <field name="category_id" ref="hr_hospital.category_specialist"/>
+    </record>
+    <record id="doctor_003" model="hr_hospital.doctor">
+        <field name="name">Dr. Oleksiy Ivanchuk (Олексій Іванчук)</field>
+        <field name="specialty">Flu</field>
+        <field name="category_id" ref="hr_hospital.category_specialist"/>
+    </record>
+    <!-- Block 4: 2 intern doctors -->
+    <record id="doctor_intern_001" model="hr_hospital.doctor">
+        <field name="name">Dr. Petro Kovalenko (Петро Коваленко)</field>
+        <field name="specialty">General</field>
+        <field name="category_id" ref="hr_hospital.category_intern"/>
+        <field name="mentor_id" ref="doctor_001"/>
+    </record>
+    <record id="doctor_intern_002" model="hr_hospital.doctor">
+        <field name="name">Dr. Oksana Shevchenko (Оксана Шевченко)</field>
+        <field name="specialty">Cold</field>
+        <field name="category_id" ref="hr_hospital.category_intern"/>
+        <field name="mentor_id" ref="doctor_002"/>
+    </record>
+</odoo>

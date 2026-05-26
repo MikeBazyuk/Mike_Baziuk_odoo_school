@@ -1,15 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+    <!-- ───── FORM ───── -->
     <record id="view_hr_hospital_visit_form" model="ir.ui.view">
         <field name="name">hr_hospital.visit.form</field>
         <field name="model">hr_hospital.visit</field>
         <field name="arch" type="xml">
-            <form string="Patient Visit">
+            <form string="Візит пацієнта">
                 <header>
                     <field name="state" widget="statusbar"
                            statusbar_visible="planned,done,cancelled"/>
                 </header>
                 <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_related_disease_visits"
+                                type="object"
+                                class="oe_stat_button"
+                                icon="fa-stethoscope"
+                                invisible="not disease_id">
+                            <field name="disease_visit_count"
+                                   widget="statinfo"
+                                   string="Візити з хворобою"/>
+                        </button>
+                    </div>
                     <group>
                         <group>
                             <field name="patient_id"/>
@@ -22,23 +34,28 @@
                             <field name="active"/>
                         </group>
                     </group>
-                    <group string="Recommendations">
-                        <field name="recommendations" nolabel="1"
-                               placeholder="Enter treatment plan, prescription, and other recommendations..."/>
-                    </group>
-                    <group string="Summary / Epikryz">
-                        <field name="summary" nolabel="1"/>
-                    </group>
+                    <notebook>
+                        <page string="Рекомендації">
+                            <field name="recommendations"
+                                   placeholder="Введіть план лікування, призначення та інші рекомендації..."/>
+                        </page>
+                        <page string="Епікриз">
+                            <field name="summary"/>
+                        </page>
+                    </notebook>
                 </sheet>
             </form>
         </field>
     </record>
 
+    <!-- ───── LIST ───── -->
     <record id="view_hr_hospital_visit_list" model="ir.ui.view">
         <field name="name">hr_hospital.visit.list</field>
         <field name="model">hr_hospital.visit</field>
         <field name="arch" type="xml">
-            <list string="Patient Visits">
+            <list string="Візити пацієнтів" decoration-success="state == 'done'"
+                  decoration-warning="state == 'planned'"
+                  decoration-muted="state == 'cancelled'">
                 <field name="scheduled_date"/>
                 <field name="visit_date"/>
                 <field name="patient_id"/>
@@ -49,10 +66,92 @@
         </field>
     </record>
 
+    <!-- ───── CALENDAR ───── -->
+    <record id="view_hr_hospital_visit_calendar" model="ir.ui.view">
+        <field name="name">hr_hospital.visit.calendar</field>
+        <field name="model">hr_hospital.visit</field>
+        <field name="arch" type="xml">
+            <calendar string="Розклад візитів"
+                      date_start="scheduled_date"
+                      color="state"
+                      mode="month"
+                      quick_add="False">
+                <field name="patient_id"/>
+                <field name="doctor_id"/>
+                <field name="state"/>
+            </calendar>
+        </field>
+    </record>
+
+    <!-- ───── PIVOT ───── -->
+    <record id="view_hr_hospital_visit_pivot" model="ir.ui.view">
+        <field name="name">hr_hospital.visit.pivot</field>
+        <field name="model">hr_hospital.visit</field>
+        <field name="arch" type="xml">
+            <pivot string="Зведена таблиця візитів" display_quantity="true">
+                <field name="doctor_id" type="row"/>
+                <field name="visit_date" type="row" interval="month"/>
+                <field name="state" type="col"/>
+            </pivot>
+        </field>
+    </record>
+
+    <!-- ───── GRAPH ───── -->
+    <record id="view_hr_hospital_visit_graph" model="ir.ui.view">
+        <field name="name">hr_hospital.visit.graph</field>
+        <field name="model">hr_hospital.visit</field>
+        <field name="arch" type="xml">
+            <graph string="Візити по місяцях" type="bar" stacked="True">
+                <field name="visit_date" type="row" interval="month"/>
+                <field name="disease_id" type="col"/>
+            </graph>
+        </field>
+    </record>
+
+    <!-- ───── SEARCH ───── -->
+    <record id="view_hr_hospital_visit_search" model="ir.ui.view">
+        <field name="name">hr_hospital.visit.search</field>
+        <field name="model">hr_hospital.visit</field>
+        <field name="arch" type="xml">
+            <search string="Пошук візитів">
+                <field name="patient_id" string="Пацієнт"/>
+                <field name="doctor_id" string="Лікар"/>
+                <field name="disease_id" string="Хвороба"/>
+                <separator/>
+                <filter name="planned" string="Заплановано"
+                        domain="[('state', '=', 'planned')]"/>
+                <filter name="done" string="Завершено"
+                        domain="[('state', '=', 'done')]"/>
+                <filter name="cancelled" string="Скасовано"
+                        domain="[('state', '=', 'cancelled')]"/>
+                <separator/>
+                <filter name="current_year" string="Поточний рік"
+                        domain="[('visit_date', '&gt;=', time.strftime('%Y-01-01')),
+                                 ('visit_date', '&lt;', str(int(time.strftime('%Y')) + 1) + '-01-01')]"/>
+                <group expand="0" string="Групувати за">
+                    <filter name="group_by_state" string="Статус"
+                            context="{'group_by': 'state'}"/>
+                    <filter name="group_by_doctor" string="Лікар"
+                            context="{'group_by': 'doctor_id'}"/>
+                    <filter name="group_by_disease" string="Хвороба"
+                            context="{'group_by': 'disease_id'}"/>
+                    <filter name="group_by_month" string="Місяць"
+                            context="{'group_by': 'visit_date:month'}"/>
+                </group>
+                <searchpanel>
+                    <field name="doctor_id" string="Лікар" icon="fa-user-md"
+                           enable_counters="1"/>
+                </searchpanel>
+            </search>
+        </field>
+    </record>
+
+    <!-- ───── ACTION ───── -->
     <record id="action_hr_hospital_visit" model="ir.actions.act_window">
         <field name="name">Візити</field>
         <field name="res_model">hr_hospital.visit</field>
-        <field name="view_mode">list,form</field>
+        <field name="view_mode">list,form,calendar,pivot,graph</field>
+        <field name="context">{'search_default_current_year': 1}</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
                 Додайте перший візит пацієнта

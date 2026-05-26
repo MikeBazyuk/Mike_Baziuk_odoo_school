@@ -1,5 +1,8 @@
+import logging
+
 from odoo import api, fields, models
 
+_logger = logging.getLogger(__name__)
 
 class DoctorHistory(models.Model):
     _name = 'hospital.doctor.history'

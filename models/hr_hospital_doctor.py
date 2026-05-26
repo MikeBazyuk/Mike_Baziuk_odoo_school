@@ -31,6 +31,11 @@ class Doctor(models.Model):
         string='Ментор',
         domain="[('is_intern', '=', False)]",
     )
+    intern_ids = fields.One2many(
+        comodel_name='hr_hospital.doctor',
+        inverse_name='mentor_id',
+        string='Інтерни',
+    )
     active = fields.Boolean(string='Активний', default=True)
 
     @api.depends('category_id')

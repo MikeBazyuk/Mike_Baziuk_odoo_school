@@ -36,9 +36,35 @@ class Visit(models.Model):
         comodel_name='hr_hospital.disease',
         string='Хвороба',
     )
+    disease_visit_count = fields.Integer(
+        string='Візити з цією хворобою',
+        compute='_compute_disease_visit_count',
+    )
     summary = fields.Html(string='Епікриз')
     recommendations = fields.Text(string='Рекомендації')
     active = fields.Boolean(string='Активний', default=True)
+
+    def _compute_disease_visit_count(self):
+        for rec in self:
+            if rec.disease_id:
+                rec.disease_visit_count = self.search_count(
+                    [
+                        ('disease_id', '=', rec.disease_id.id),
+                    ]
+                )
+            else:
+                rec.disease_visit_count = 0
+
+    def action_related_disease_visits(self):
+        self.ensure_one()
+        return {
+            'type': 'ir.actions.act_window',
+            'name': f'Візити: {self.disease_id.display_name}',
+            'res_model': 'hr_hospital.visit',
+            'view_mode': 'list,form',
+            'domain': [('disease_id', '=', self.disease_id.id)],
+            'target': 'current',
+        }
 
     def write(self, vals):
         protected = {'visit_date', 'scheduled_date', 'doctor_id'}
