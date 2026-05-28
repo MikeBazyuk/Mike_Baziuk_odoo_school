@@ -6,12 +6,23 @@ _logger = logging.getLogger(__name__)
 
 
 class Patient(models.Model):
+    """Модель пацієнта лікарні.
+
+    Зберігає персональні дані пацієнта, його страховий поліс,
+    персонального лікаря та зв'язаного користувача системи.
+    """
+
     _name = 'hr_hospital.patient'
     _inherit = ['hospital.medic.info']
     _description = 'Пацієнт'
 
     name = fields.Char(string='ПІБ', required=True)
     phone = fields.Char(string='Телефон')
+    user_id = fields.Many2one(
+        comodel_name='res.users',
+        string='Користувач системи',
+        help='Пов\'язаний користувач Odoo. Використовується для обмеження доступу до власних відвідувань.',
+    )
     personal_doctor_id = fields.Many2one(
         comodel_name='hr_hospital.doctor',
         string='Персональний лікар',
@@ -29,12 +40,14 @@ class Patient(models.Model):
     active = fields.Boolean(string='Активний', default=True)
 
     def _compute_visit_count(self):
+        """Підраховує загальну кількість відвідувань пацієнта."""
         for patient in self:
             patient.visit_count = self.env['hr_hospital.visit'].search_count([
                 ('patient_id', '=', patient.id),
             ])
 
     def action_show_visits(self):
+        """Відкриває список відвідувань поточного пацієнта."""
         self.ensure_one()
         return {
             'type': 'ir.actions.act_window',
@@ -47,6 +60,7 @@ class Patient(models.Model):
         }
 
     def action_create_visit(self):
+        """Відкриває форму створення нового відвідування для поточного пацієнта."""
         self.ensure_one()
         return {
             'type': 'ir.actions.act_window',

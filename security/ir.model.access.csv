@@ -1,10 +1,19 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_hr_hospital_doctor_user,hr_hospital.doctor user,model_hr_hospital_doctor,base.group_user,1,1,1,1
-access_hr_hospital_patient_user,hr_hospital.patient user,model_hr_hospital_patient,base.group_user,1,1,1,1
-access_hr_hospital_disease_user,hr_hospital.disease user,model_hr_hospital_disease,base.group_user,1,1,1,1
-access_hr_hospital_visit_user,hr_hospital.visit user,model_hr_hospital_visit,base.group_user,1,1,1,1
-access_hospital_doctor_category_user,hospital.doctor.category user,model_hospital_doctor_category,base.group_user,1,1,1,1
-access_hospital_doctor_history_user,hospital.doctor.history user,model_hospital_doctor_history,base.group_user,1,1,1,1
+access_hr_hospital_doctor_user,hr_hospital.doctor user,model_hr_hospital_doctor,base.group_user,1,1,1,0
+access_hr_hospital_doctor_admin,hr_hospital.doctor admin,model_hr_hospital_doctor,hr_hospital.group_hr_hospital_admin,1,1,1,1
+access_hr_hospital_patient_user,hr_hospital.patient user,model_hr_hospital_patient,base.group_user,1,1,1,0
+access_hr_hospital_patient_admin,hr_hospital.patient admin,model_hr_hospital_patient,hr_hospital.group_hr_hospital_admin,1,1,1,1
+access_hr_hospital_disease_user,hr_hospital.disease user,model_hr_hospital_disease,base.group_user,1,1,1,0
+access_hr_hospital_disease_admin,hr_hospital.disease admin,model_hr_hospital_disease,hr_hospital.group_hr_hospital_admin,1,1,1,1
+access_hospital_doctor_category_user,hospital.doctor.category user,model_hospital_doctor_category,base.group_user,1,1,1,0
+access_hospital_doctor_category_admin,hospital.doctor.category admin,model_hospital_doctor_category,hr_hospital.group_hr_hospital_admin,1,1,1,1
+access_hospital_doctor_history_user,hospital.doctor.history user,model_hospital_doctor_history,base.group_user,1,1,1,0
+access_hospital_doctor_history_admin,hospital.doctor.history admin,model_hospital_doctor_history,hr_hospital.group_hr_hospital_admin,1,1,1,1
+access_hr_hospital_visit_patient,hr_hospital.visit patient,model_hr_hospital_visit,hr_hospital.group_hr_hospital_patient,1,0,0,0
+access_hr_hospital_visit_intern,hr_hospital.visit intern,model_hr_hospital_visit,hr_hospital.group_hr_hospital_intern,1,1,1,0
+access_hr_hospital_visit_doctor,hr_hospital.visit doctor,model_hr_hospital_visit,hr_hospital.group_hr_hospital_doctor,1,1,1,0
+access_hr_hospital_visit_manager,hr_hospital.visit manager,model_hr_hospital_visit,hr_hospital.group_hr_hospital_manager,1,0,0,0
+access_hr_hospital_visit_admin,hr_hospital.visit admin,model_hr_hospital_visit,hr_hospital.group_hr_hospital_admin,1,1,1,1
 access_mass_reassign_doctor_wizard_user,mass.reassign.doctor.wizard user,model_mass_reassign_doctor_wizard,base.group_user,1,1,1,1
 access_visit_report_wizard_user,visit.report.wizard user,model_visit_report_wizard,base.group_user,1,1,1,1
 access_hr_hospital_disease_report_wizard_user,hr_hospital.disease.report.wizard user,model_hr_hospital_disease_report_wizard,base.group_user,1,1,1,1

@@ -7,6 +7,13 @@ _logger = logging.getLogger(__name__)
 
 
 class Doctor(models.Model):
+    """Модель лікаря лікарні.
+
+    Зберігає персональні дані лікаря, його спеціальність, кваліфікацію,
+    зв'язок із зареєстрованим користувачем системи, а також ієрархію
+    ментор → інтерн.
+    """
+
     _name = 'hr_hospital.doctor'
     _inherit = ['hospital.medic.info']
     _description = 'Лікар'
@@ -45,17 +52,31 @@ class Doctor(models.Model):
 
     @api.depends('category_id')
     def _compute_is_intern(self):
+        """Визначає, чи є лікар інтерном.
+
+        Лікар вважається інтерном, якщо його категорія збігається з
+        категорією «Лікар-інтерн» (external ID: hr_hospital.category_intern).
+        """
         intern_cat = self.env.ref('hr_hospital.category_intern', raise_if_not_found=False)
         for doctor in self:
             doctor.is_intern = bool(intern_cat and doctor.category_id == intern_cat)
 
     @api.depends('intern_ids')
     def _compute_is_mentor(self):
+        """Визначає, чи є лікар ментором.
+
+        Лікар вважається ментором, якщо у нього є хоча б один прив'язаний
+        інтерн через поле ``intern_ids``.
+        """
         for doctor in self:
             doctor.is_mentor = bool(doctor.intern_ids)
 
     @api.constrains('mentor_id')
     def _check_mentor_not_intern(self):
+        """Перевіряє, що ментором не призначено лікаря-інтерна.
+
+        :raises ValidationError: якщо обраний ментор є інтерном.
+        """
         for doctor in self:
             if doctor.mentor_id and doctor.mentor_id.is_intern:
                 raise ValidationError("Ментором не може бути лікар-інтерн.")
