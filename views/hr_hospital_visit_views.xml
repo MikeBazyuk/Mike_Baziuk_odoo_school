@@ -74,8 +74,7 @@
             <calendar string="Розклад візитів"
                       date_start="scheduled_date"
                       color="state"
-                      mode="month"
-                      quick_add="False">
+                      mode="month">
                 <field name="patient_id"/>
                 <field name="doctor_id"/>
                 <field name="state"/>
@@ -126,9 +125,9 @@
                         domain="[('state', '=', 'cancelled')]"/>
                 <separator/>
                 <filter name="current_year" string="Поточний рік"
-                        domain="[('visit_date', '&gt;=', time.strftime('%Y-01-01')),
-                                 ('visit_date', '&lt;', str(int(time.strftime('%Y')) + 1) + '-01-01')]"/>
-                <group expand="0" string="Групувати за">
+                        domain="[('visit_date', '&gt;=', context_today().strftime('%Y-01-01')),
+                                 ('visit_date', '&lt;', (context_today() + relativedelta(years=1)).strftime('%Y-01-01'))]"/>
+                <group name="group_by">
                     <filter name="group_by_state" string="Статус"
                             context="{'group_by': 'state'}"/>
                     <filter name="group_by_doctor" string="Лікар"

@@ -33,8 +33,9 @@ class Disease(models.Model):
     @api.constrains('parent_id')
     def _check_parent_recursion(self):
         if not self._check_recursion():
-            raise ValidationError('Хвороба не може бути батьком самої себе (циклічність неприпустима).')
+            raise ValidationError("Хвороба не може бути батьком самої себе (циклічність неприпустима).")
 
+    @api.depends('name', 'parent_id.display_name')
     def _compute_display_name(self):
         for rec in self:
             names = []

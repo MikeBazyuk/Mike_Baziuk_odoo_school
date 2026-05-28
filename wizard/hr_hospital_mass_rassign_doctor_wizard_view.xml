@@ -1,36 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <record id="view_hr_hospital_disease_report_wizard_form" model="ir.ui.view">
-        <field name="name">hr_hospital.disease.report.wizard.form</field>
-        <field name="model">hr_hospital.disease.report.wizard</field>
+    <record id="hr_hospital_mass_reassign_doctor_wizard_form" model="ir.ui.view">
+        <field name="name">mass.reassign.doctor.wizard.form</field>
+        <field name="model">mass.reassign.doctor.wizard</field>
         <field name="arch" type="xml">
-            <form string="Звіт по хворобах за місяць">
+            <form string="Масове перевизначення лікаря">
                 <group>
-                    <group string="Фільтри">
-                        <field name="doctor_ids" widget="many2many_tags"/>
-                        <field name="disease_ids" widget="many2many_tags"/>
-                    </group>
-                    <group string="Період">
-                        <field name="date_from"/>
-                        <field name="date_to"/>
-                    </group>
+                    <field name="new_doctor_id"/>
+                    <field name="change_date"/>
                 </group>
                 <footer>
-                    <button name="action_generate_report" type="object"
-                            string="Сформувати звіт" class="btn-primary"/>
-                    <button string="Відміна" class="btn-secondary" special="cancel"/>
+                    <button name="action_reassign" type="object"
+                            string="Перевизначити" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary"
+                            special="cancel"/>
                 </footer>
             </form>
         </field>
     </record>
 
-    <record id="action_disease_report_wizard_from_doctor" model="ir.actions.act_window">
-        <field name="name">Звіт по хворобах</field>
-        <field name="res_model">hr_hospital.disease.report.wizard</field>
+    <record id="hr_hospital_action_mass_reassign_doctor_wizard" model="ir.actions.act_window">
+        <field name="name">Перевизначити лікаря</field>
+        <field name="res_model">mass.reassign.doctor.wizard</field>
         <field name="view_mode">form</field>
         <field name="target">new</field>
-        <field name="binding_model_id" ref="model_hr_hospital_doctor"/>
-        <field name="binding_view_types">list,form</field>
-        <field name="binding_type">report</field>
+        <field name="binding_model_id" ref="model_hr_hospital_patient"/>
+        <field name="binding_view_types">list</field>
     </record>
 </odoo>

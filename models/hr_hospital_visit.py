@@ -10,16 +10,11 @@ class Visit(models.Model):
     _name = 'hr_hospital.visit'
     _description = 'Візит пацієнта'
 
-    state = fields.Selection(
-        [
-            ('planned', 'Заплановано'),
-            ('done', 'Завершено'),
-            ('cancelled', 'Скасовано'),
-        ],
-        string='Статус',
-        default='planned',
-        required=True,
-    )
+    state = fields.Selection([
+        ('planned', 'Заплановано'),
+        ('done', 'Завершено'),
+        ('cancelled', 'Скасовано'),
+    ], string='Статус', default='planned', required=True)
     scheduled_date = fields.Datetime(string='Запланована дата')
     visit_date = fields.Datetime(string='Дата візиту')
     doctor_id = fields.Many2one(
@@ -47,11 +42,9 @@ class Visit(models.Model):
     def _compute_disease_visit_count(self):
         for rec in self:
             if rec.disease_id:
-                rec.disease_visit_count = self.search_count(
-                    [
-                        ('disease_id', '=', rec.disease_id.id),
-                    ]
-                )
+                rec.disease_visit_count = self.search_count([
+                    ('disease_id', '=', rec.disease_id.id),
+                ])
             else:
                 rec.disease_visit_count = 0
 
@@ -70,15 +63,17 @@ class Visit(models.Model):
         protected = {'visit_date', 'scheduled_date', 'doctor_id'}
         for rec in self:
             if rec.state == 'done' and protected & set(vals):
-                raise UserError(_('Неможливо змінити дату/час або лікаря завершеного візиту.'))
+                raise UserError(_(
+                    "Неможливо змінити дату/час або лікаря завершеного візиту."
+                ))
         if vals.get('active') is False:
             for rec in self:
                 if rec.state == 'done':
-                    raise UserError(_('Неможливо архівувати завершений візит.'))
+                    raise UserError(_("Неможливо архівувати завершений візит."))
         return super().write(vals)
 
     def unlink(self):
         for rec in self:
             if rec.state == 'done':
-                raise UserError(_('Неможливо видалити завершений візит.'))
+                raise UserError(_("Неможливо видалити завершений візит."))
         return super().unlink()

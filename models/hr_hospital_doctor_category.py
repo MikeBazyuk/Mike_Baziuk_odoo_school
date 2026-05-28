@@ -4,7 +4,6 @@ from odoo import fields, models
 
 _logger = logging.getLogger(__name__)
 
-
 class DoctorCategory(models.Model):
     _name = 'hospital.doctor.category'
     _description = 'Кваліфікація лікарів'
