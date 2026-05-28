@@ -5,6 +5,12 @@ from odoo import api, fields, models
 _logger = logging.getLogger(__name__)
 
 class DoctorHistory(models.Model):
+    """Журнал зміни персональних лікарів пацієнта.
+
+    Кожен запис фіксує дату призначення та дату зміни лікаря для конкретного
+    пацієнта. Попереджає, якщо дата зміни раніша за дату призначення.
+    """
+
     _name = 'hospital.doctor.history'
     _description = 'Історія персональних лікарів'
     _rec_name = 'patient_id'
@@ -29,6 +35,7 @@ class DoctorHistory(models.Model):
 
     @api.onchange('change_date', 'appointment_date')
     def _onchange_dates(self):
+        """Попереджає, якщо дата зміни лікаря раніша за дату призначення."""
         if self.change_date and self.appointment_date and self.change_date < self.appointment_date:
             return {
                 'warning': {
@@ -40,6 +47,7 @@ class DoctorHistory(models.Model):
 
     @api.depends('patient_id.name', 'doctor_id.name', 'doctor_id.category_id.name', 'appointment_date')
     def _compute_display_name(self):
+        """Формує відображувану назву: «Пацієнт - Лікар (категорія) дата»."""
         for rec in self:
             patient = rec.patient_id.name or ''
             doctor = rec.doctor_id.name or ''

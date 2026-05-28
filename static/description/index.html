@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8"/>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 900px; margin: 0 auto; padding: 20px; color: #333; }
+        h1 { color: #17a589; border-bottom: 2px solid #17a589; padding-bottom: 8px; }
+        h2 { color: #1a5276; margin-top: 30px; }
+        .badge { display: inline-block; background: #17a589; color: #fff; border-radius: 4px; padding: 3px 10px; font-size: 13px; margin: 2px; }
+        table { border-collapse: collapse; width: 100%; margin: 12px 0; }
+        th { background: #17a589; color: #fff; padding: 8px 12px; text-align: left; }
+        td { padding: 7px 12px; border-bottom: 1px solid #ddd; }
+        tr:hover td { background: #f4f9f8; }
+        .section { background: #f8f9fa; border-left: 4px solid #17a589; padding: 12px 16px; margin: 16px 0; border-radius: 0 6px 6px 0; }
+    </style>
+</head>
+<body>
+
+<h1>🏥 HR Hospital</h1>
+<p><strong>Навчальний модуль управління лікарнею</strong> — розроблений у рамках курсу Odoo School.</p>
+
+<div class="section">
+    <span class="badge">Odoo 19.0</span>
+    <span class="badge">Python</span>
+    <span class="badge">QWeb Reports</span>
+    <span class="badge">Ukrainian</span>
+</div>
+
+<h2>📋 Опис</h2>
+<p>
+    Модуль <strong>HR Hospital</strong> реалізує базову систему управління лікарнею:
+    облік лікарів та пацієнтів, запис на прийом, класифікатор хвороб,
+    розмежування прав доступу та друковані звіти.
+</p>
+
+<h2>✨ Функціональність</h2>
+<table>
+    <tr><th>Блок</th><th>Можливості</th></tr>
+    <tr><td>Лікарі</td><td>Картка лікаря, спеціальність, кваліфікація, ментор / інтерни, kanban-дошка</td></tr>
+    <tr><td>Пацієнти</td><td>Картка пацієнта, страховий поліс, персональний лікар, лічильник візитів</td></tr>
+    <tr><td>Відвідування</td><td>Статуси (Заплановано / Завершено / Скасовано), захист від редагування завершених візитів</td></tr>
+    <tr><td>Хвороби</td><td>Ієрархічний класифікатор хвороб із кодами</td></tr>
+    <tr><td>Звіти</td><td>Друкований звіт по лікарю: картка + візити + пацієнти</td></tr>
+    <tr><td>Безпека</td><td>Групи: Пацієнт / Інтерн / Лікар / Менеджер / Адміністратор</td></tr>
+</table>
+
+<h2>🔐 Групи доступу</h2>
+<table>
+    <tr><th>Група</th><th>Відвідування</th><th>Примітка</th></tr>
+    <tr><td>Пацієнт</td><td>Читання власних</td><td>Бачить лише свої відвідування</td></tr>
+    <tr><td>Інтерн</td><td>Читання + редагування власних</td><td>Успадковує права Пацієнта</td></tr>
+    <tr><td>Лікар</td><td>Читання + редагування своїх та інтернів</td><td>Успадковує права Інтерна</td></tr>
+    <tr><td>Менеджер</td><td>Читання всіх</td><td>Успадковує права Лікаря</td></tr>
+    <tr><td>Адміністратор</td><td>Повний доступ (CRUD)</td><td>Успадковує права Менеджера</td></tr>
+</table>
+
+<h2>📊 Моделі</h2>
+<ul>
+    <li><code>hr_hospital.doctor</code> — Лікар</li>
+    <li><code>hr_hospital.patient</code> — Пацієнт</li>
+    <li><code>hr_hospital.visit</code> — Відвідування</li>
+    <li><code>hr_hospital.disease</code> — Хвороба (ієрархічна)</li>
+    <li><code>hospital.doctor.category</code> — Кваліфікація лікаря</li>
+    <li><code>hospital.doctor.history</code> — Історія персональних лікарів</li>
+    <li><code>hospital.medic.info</code> — Абстрактна модель медичної інформації</li>
+</ul>
+
+<h2>🛠 Встановлення</h2>
+<div class="section">
+    <ol>
+        <li>Скопіюйте директорію <code>hr_hospital</code> до папки <code>custom_addons</code>.</li>
+        <li>Додайте шлях до <code>addons_path</code> у <code>odoo.conf</code>.</li>
+        <li>Перезапустіть сервер Odoo: <code>./odoo-bin -u hr_hospital -d &lt;db_name&gt;</code></li>
+        <li>Активуйте модуль у меню <em>Застосунки</em>.</li>
+    </ol>
+</div>
+
+<h2>📝 Автор</h2>
+<p>
+    <strong>Mykhailo Baziuk</strong> —
+    <a href="https://odoo.school/">Odoo School</a>
+</p>
+
+</body>
+</html>

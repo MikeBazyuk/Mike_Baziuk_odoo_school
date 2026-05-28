@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!--
+            Odoo 19 group structure:
+              ir.module.category  ← module application category
+                res.groups.privilege  ← feature/role bucket shown on user form
+                  res.groups  ← individual group (privilege_id instead of old category_id)
+        -->
+
+        <!-- Module category (shown in Settings → Technical → App list) -->
+        <record id="module_category_hr_hospital" model="ir.module.category">
+            <field name="name">Лікарня</field>
+            <field name="sequence">100</field>
+        </record>
+
+        <!-- Privilege – groups this set of hospital roles together on the user form -->
+        <record id="privilege_hr_hospital" model="res.groups.privilege">
+            <field name="name">Лікарня</field>
+            <field name="description">Рівень доступу до модуля HR Hospital</field>
+            <field name="category_id" ref="module_category_hr_hospital"/>
+            <field name="sequence">10</field>
+        </record>
+
+        <!-- Patient – base group (lowest level) -->
+        <record id="group_hr_hospital_patient" model="res.groups">
+            <field name="name">Пацієнт</field>
+            <field name="privilege_id" ref="privilege_hr_hospital"/>
+            <field name="comment">Може переглядати лише власні відвідування.</field>
+        </record>
+
+        <!-- Intern – implies Patient -->
+        <record id="group_hr_hospital_intern" model="res.groups">
+            <field name="name">Інтерн</field>
+            <field name="privilege_id" ref="privilege_hr_hospital"/>
+            <field name="implied_ids" eval="[(4, ref('group_hr_hospital_patient'))]"/>
+            <field name="comment">Може переглядати та редагувати власні відвідування.</field>
+        </record>
+
+        <!-- Doctor – implies Intern -->
+        <record id="group_hr_hospital_doctor" model="res.groups">
+            <field name="name">Лікар</field>
+            <field name="privilege_id" ref="privilege_hr_hospital"/>
+            <field name="implied_ids" eval="[(4, ref('group_hr_hospital_intern'))]"/>
+            <field name="comment">Може переглядати та редагувати власні відвідування і відвідування своїх інтернів.</field>
+        </record>
+
+        <!-- Manager – implies Doctor -->
+        <record id="group_hr_hospital_manager" model="res.groups">
+            <field name="name">Менеджер</field>
+            <field name="privilege_id" ref="privilege_hr_hospital"/>
+            <field name="implied_ids" eval="[(4, ref('group_hr_hospital_doctor'))]"/>
+            <field name="comment">Може переглядати усі відвідування.</field>
+        </record>
+
+        <!-- Administrator – implies Manager -->
+        <record id="group_hr_hospital_admin" model="res.groups">
+            <field name="name">Адміністратор</field>
+            <field name="privilege_id" ref="privilege_hr_hospital"/>
+            <field name="implied_ids" eval="[(4, ref('group_hr_hospital_manager'))]"/>
+            <field name="comment">Повний доступ до всіх даних модуля, включаючи видалення.</field>
+        </record>
+
+    </data>
+</odoo>

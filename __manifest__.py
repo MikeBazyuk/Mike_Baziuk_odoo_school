@@ -1,6 +1,6 @@
 {
     'name': 'HR Hospital',
-    'summary': "Education project of hospital managment system",
+    'summary': "Навчальний модуль управління лікарнею",
     'author': 'Mykhailo Baziuk',
     'website': 'https://odoo.school/',
     'category': 'Customizations',
@@ -16,7 +16,9 @@
     },
 
     'data': [
+        'security/hr_hospital_groups.xml',
         'security/ir.model.access.csv',
+        'security/hr_hospital_rules.xml',
 
         'data/hr_hospital_sequence_data.xml',
         'data/hr_hospital_doctor_category_data.xml',
