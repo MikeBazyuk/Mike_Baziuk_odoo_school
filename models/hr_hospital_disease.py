@@ -47,10 +47,6 @@ class Disease(models.Model):
 
     @api.constrains('parent_id')
     def _check_parent_recursion(self):
-        """Перевіряє відсутність циклічних зв'язків у ієрархії хвороб.
-
-        :raises ValidationError: якщо встановлення ``parent_id`` створює цикл.
-        """
         if self._has_cycle():
             raise ValidationError("Хвороба не може бути батьком самої себе (циклічність неприпустима).")
 

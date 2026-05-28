@@ -5,11 +5,6 @@ from odoo import fields, models
 _logger = logging.getLogger(__name__)
 
 class DoctorCategory(models.Model):
-    """Довідник кваліфікацій лікарів.
-
-    Визначає рівень кваліфікації (інтерн, спеціаліст, лікар вищої категорії
-    тощо). Використовується для обчислення поля ``is_intern`` у моделі лікаря.
-    """
 
     _name = 'hospital.doctor.category'
     _description = 'Кваліфікація лікарів'

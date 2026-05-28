@@ -7,13 +7,6 @@ _logger = logging.getLogger(__name__)
 
 
 class Visit(models.Model):
-    """Модель відвідування пацієнта.
-
-    Зберігає інформацію про заплановані та виконані прийоми:
-    дату, лікаря, пацієнта, хворобу, статус та епікриз.
-    Забороняє зміну ключових полів і видалення для завершених візитів.
-    """
-
     _name = 'hr_hospital.visit'
     _description = 'Візит пацієнта'
 
@@ -47,7 +40,6 @@ class Visit(models.Model):
     active = fields.Boolean(string='Активний', default=True)
 
     def _compute_disease_visit_count(self):
-        """Підраховує кількість усіх відвідувань із тією самою хворобою."""
         for rec in self:
             if rec.disease_id:
                 rec.disease_visit_count = self.search_count([
@@ -57,7 +49,6 @@ class Visit(models.Model):
                 rec.disease_visit_count = 0
 
     def action_related_disease_visits(self):
-        """Відкриває список усіх відвідувань із тією самою хворобою."""
         self.ensure_one()
         return {
             'type': 'ir.actions.act_window',
@@ -69,11 +60,6 @@ class Visit(models.Model):
         }
 
     def write(self, vals):
-        """Забороняє зміну дати, часу та лікаря у завершеному візиті.
-
-        :raises UserError: при спробі змінити ``visit_date``, ``scheduled_date``
-            або ``doctor_id`` в записі зі статусом ``done``.
-        """
         protected = {'visit_date', 'scheduled_date', 'doctor_id'}
         for rec in self:
             if rec.state == 'done' and protected & set(vals):
@@ -87,10 +73,6 @@ class Visit(models.Model):
         return super().write(vals)
 
     def unlink(self):
-        """Забороняє видалення завершеного візиту.
-
-        :raises UserError: при спробі видалити запис зі статусом ``done``.
-        """
         for rec in self:
             if rec.state == 'done':
                 raise UserError(_("Неможливо видалити завершений візит."))

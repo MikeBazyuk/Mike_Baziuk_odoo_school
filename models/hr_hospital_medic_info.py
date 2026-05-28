@@ -8,11 +8,6 @@ _logger = logging.getLogger(__name__)
 
 
 class MedicInfo(models.AbstractModel):
-    """Абстрактна модель із загальними медичними полями.
-
-    Успадковується моделями ``hr_hospital.doctor`` та ``hr_hospital.patient``.
-    Містить поля: група крові, стать, дата народження, обчислюваний вік.
-    """
 
     _name = 'hospital.medic.info'
     _description = 'Медична інформація'
@@ -36,7 +31,6 @@ class MedicInfo(models.AbstractModel):
 
     @api.depends('birth_date')
     def _compute_age(self):
-        """Обчислює повний вік у роках на основі дати народження."""
         today = fields.Date.today()
         for rec in self:
             if rec.birth_date:

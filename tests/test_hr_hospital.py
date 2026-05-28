@@ -13,6 +13,7 @@ Covers:
 from odoo.exceptions import UserError, ValidationError
 from odoo.tests import TransactionCase
 
+
 def _assert_recursion_blocked(test_case, callable_):
     """Assert that callable_ raises UserError or ValidationError.
 
