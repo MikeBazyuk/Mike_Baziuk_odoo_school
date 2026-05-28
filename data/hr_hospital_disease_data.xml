@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-    <odoo noupdate="1">
-        <record id="disease_high" model="hr_hospital.disease">
-            <field name="name">Actue</field>
-            <field name="description">Actue infections</field>
-            <field name="code">ABC</field>
-            <field name="color">2</field>
-        </record>
-        <record id="disease_flu" model="hr_hospital.disease">
-            <field name="name">Flu</field>
-            <field name="description">Influenza virus infection</field>
-            <field name="code">A01</field>
-            <field name="color">3</field>
-        </record>
-        <record id="disease_cold" model="hr_hospital.disease">
-            <field name="name">Cold</field>
-            <field name="description">Acute respiratory viral infection</field>
-            <field name="code">B02</field>
-            <field name="color">3</field>
-        </record>
-        <record id="disease_bronchitis" model="hr_hospital.disease">
-            <field name="name">Bronchitis</field>
-            <field name="description">Inflammation of the lining of bronchial tubes</field>
-            <field name="code">C03</field>
-            <field name="color">3</field>
-        </record>
-    </odoo>
+<odoo noupdate="1">
+    <record id="disease_high" model="hr_hospital.disease">
+        <field name="name">Acute</field>
+        <field name="description">Acute infections</field>
+        <field name="code">ABC</field>
+        <field name="color">2</field>
+    </record>
+    <record id="disease_flu" model="hr_hospital.disease">
+        <field name="name">Flu</field>
+        <field name="description">Influenza virus infection</field>
+        <field name="code">A01</field>
+        <field name="color">3</field>
+    </record>
+    <record id="disease_cold" model="hr_hospital.disease">
+        <field name="name">Cold</field>
+        <field name="description">Acute respiratory viral infection</field>
+        <field name="code">B02</field>
+        <field name="color">3</field>
+    </record>
+    <record id="disease_bronchitis" model="hr_hospital.disease">
+        <field name="name">Bronchitis</field>
+        <field name="description">Inflammation of the lining of bronchial tubes</field>
+        <field name="code">C03</field>
+        <field name="color">3</field>
+    </record>
+</odoo>

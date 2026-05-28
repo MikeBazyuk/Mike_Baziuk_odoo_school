@@ -38,7 +38,7 @@
                                     <field name="specialty"/>
                                     <field name="category_id"/>
                                     <templates>
-                                        <t t-name="kanban-card">
+                                        <t t-name="card">
                                             <div class="oe_kanban_global_click">
                                                 <div>
                                                     <strong>
@@ -90,21 +90,71 @@
                 <field name="category_id"/>
                 <field name="is_intern"/>
                 <field name="mentor_id"/>
+                <field name="intern_ids"/>
                 <templates>
-                    <t t-name="kanban-card">
+                    <!-- ── Dropdown action menu ── -->
+                    <t t-name="menu">
+                        <a role="menuitem" type="edit">Редагувати</a>
+                        <a role="menuitem" type="delete">Видалити</a>
+                        <a role="menuitem" type="object" name="toggle_active">
+                            Архівувати / Розархівувати
+                        </a>
+                    </t>
+
+                    <!-- ── Card body ── -->
+                    <t t-name="card">
                         <div class="oe_kanban_global_click">
-                            <div>
-                                <strong><field name="name"/></strong>
+                            <!-- Title -->
+                            <div class="o_kanban_record_top mb-1">
+                                <div class="o_kanban_record_headings">
+                                    <strong class="o_kanban_record_title fs-6">
+                                        <field name="name"/>
+                                    </strong>
+                                </div>
                             </div>
-                            <div t-if="record.specialty.value">
+
+                            <!-- Specialty -->
+                            <div t-if="record.specialty.value" class="text-muted small mb-1">
                                 <i class="fa fa-stethoscope me-1"/>
                                 <field name="specialty"/>
                             </div>
-                            <div t-if="record.is_intern.value">
+
+                            <!-- Qualification badge -->
+                            <div t-if="record.category_id.value" class="mb-1">
+                                <span class="badge text-bg-info">
+                                    <field name="category_id"/>
+                                </span>
+                            </div>
+
+                            <!-- Intern badge + mentor -->
+                            <div t-if="record.is_intern.value" class="mb-1">
                                 <span class="badge text-bg-warning">Інтерн</span>
                                 <t t-if="record.mentor_id.value">
-                                    — <field name="mentor_id"/>
+                                    <span class="text-muted small ms-1">
+                                        → <field name="mentor_id"/>
+                                    </span>
                                 </t>
+                            </div>
+
+                            <!-- Intern list (visible when doctor is a mentor) -->
+                            <div t-if="record.intern_ids.raw_value.length" class="mt-2 pt-1"
+                                 style="border-top:1px solid #eee;">
+                                <div class="text-muted small fw-bold mb-1">
+                                    Інтерни (<t t-esc="record.intern_ids.raw_value.length"/>):
+                                </div>
+                                <field name="intern_ids" widget="many2many_tags"
+                                       options="{'no_open': True}"/>
+                            </div>
+                        </div>
+
+                        <!-- Card footer buttons -->
+                        <div class="o_kanban_record_bottom mt-2">
+                            <div class="oe_kanban_bottom_left"/>
+                            <div class="oe_kanban_bottom_right">
+                                <button class="btn btn-sm btn-light o_kanban_action_button"
+                                        type="edit" title="Редагувати">
+                                    <i class="fa fa-pencil"/>
+                                </button>
                             </div>
                         </div>
                     </t>
@@ -126,8 +176,8 @@
                 <filter name="filter_interns" string="Інтерни"
                         domain="[('is_intern', '=', True)]"/>
                 <filter name="filter_mentors" string="Ментори"
-                        domain="[('intern_ids', '!=', False)]"/>
-                <group expand="0" string="Групувати за">
+                        domain="[('is_mentor', '=', True)]"/>
+                <group name="group_by">
                     <filter name="group_by_category" string="Кваліфікація"
                             context="{'group_by': 'category_id'}"/>
                     <filter name="group_by_specialty" string="Спеціальність"

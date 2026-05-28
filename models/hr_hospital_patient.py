@@ -30,11 +30,9 @@ class Patient(models.Model):
 
     def _compute_visit_count(self):
         for patient in self:
-            patient.visit_count = self.env['hr_hospital.visit'].search_count(
-                [
-                    ('patient_id', '=', patient.id),
-                ]
-            )
+            patient.visit_count = self.env['hr_hospital.visit'].search_count([
+                ('patient_id', '=', patient.id),
+            ])
 
     def action_show_visits(self):
         self.ensure_one()

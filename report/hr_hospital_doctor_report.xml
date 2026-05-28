@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ───── Paper format ───── -->
+    <record id="hr_hospital_doctor_paperformat" model="report.paperformat">
+        <field name="name">A4 Hospital Doctor</field>
+        <field name="default" eval="False"/>
+        <field name="format">A4</field>
+        <field name="page_height">0</field>
+        <field name="page_width">0</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">80</field>
+        <field name="margin_bottom">15</field>
+        <field name="margin_left">15</field>
+        <field name="margin_right">15</field>
+        <field name="header_line" eval="False"/>
+        <field name="header_spacing">15</field>
+        <field name="dpi">180</field>
+    </record>
+
+    <!-- ───── Report action 1 – basic doctor card ───── -->
+    <record id="action_report_hr_hospital_doctor" model="ir.actions.report">
+        <field name="name">Звіт по лікарю</field>
+        <field name="model">hr_hospital.doctor</field>
+        <field name="report_type">qweb-html</field>
+        <field name="report_name">hr_hospital.report_hr_hospital_doctor</field>
+        <field name="report_file">hr_hospital.report_hr_hospital_doctor</field>
+        <field name="print_report_name">(object.name)</field>
+        <field name="attachment"/>
+        <field name="binding_model_id" ref="model_hr_hospital_doctor"/>
+        <field name="binding_type">report</field>
+        <field name="paperformat_id" ref="hr_hospital.hr_hospital_doctor_paperformat"/>
+    </record>
+
+    <!-- ───── Report action 2 – full report (card + visits + patients) ───── -->
+    <record id="action_report_hr_hospital_doctor_full" model="ir.actions.report">
+        <field name="name">Повний звіт по лікарю</field>
+        <field name="model">hr_hospital.doctor</field>
+        <field name="report_type">qweb-html</field>
+        <field name="report_name">hr_hospital.report_hr_hospital_doctor_full</field>
+        <field name="report_file">hr_hospital.report_hr_hospital_doctor_full</field>
+        <field name="print_report_name">(object.name)</field>
+        <field name="attachment"/>
+        <field name="binding_model_id" ref="model_hr_hospital_doctor"/>
+        <field name="binding_type">report</field>
+        <field name="paperformat_id" ref="hr_hospital.hr_hospital_doctor_paperformat"/>
+    </record>
+
+    <!-- ───── Sub-template: company header ───── -->
+    <template id="report_hr_hospital_doctor_company_template">
+        <div style="text-align: center; margin-bottom: 20px;">
+            <img t-attf-src="/logo.png?company={{ o.env.company.id }}"
+                 style="padding: 0px; margin: 0px; height: 48px;"
+                 t-att-alt="o.env.company.name"/>
+            <br/>
+            <h2 style="margin-bottom: 4px;">
+                <span t-esc="o.env.company.name"/>
+            </h2>
+            <div style="font-size: 13px; color: #555; line-height: 1.6;">
+                <t t-if="o.env.company.street">
+                    <span t-esc="o.env.company.street"/>
+                    <t t-if="o.env.company.city">, <span t-esc="o.env.company.city"/></t>
+                    <t t-if="o.env.company.zip"> <span t-esc="o.env.company.zip"/></t>
+                    <br/>
+                </t>
+                <t t-if="o.env.company.phone">
+                    📞 <span t-esc="o.env.company.phone"/>
+                    <t t-if="o.env.company.email">  |  </t>
+                </t>
+                <t t-if="o.env.company.email">
+                    ✉ <span t-esc="o.env.company.email"/>
+                </t>
+            </div>
+        </div>
+    </template>
+
+    <!-- ───── Sub-template: doctor info card ───── -->
+    <template id="report_hr_hospital_doctor_info_template">
+        <div style="max-width: 640px; margin: 20px auto; padding: 20px;
+                    border: 1px solid #ddd; border-radius: 10px;
+                    box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+            <h1 style="font-size: 24px; margin-bottom: 20px; text-align: center;">
+                Інформація про лікаря
+            </h1>
+
+            <t t-if="o.name">
+                <div style="margin-bottom: 15px; text-align: center;">
+                    <h2 style="font-size: 20px; font-weight: bold;">
+                        <span t-esc="o.name"/>
+                    </h2>
+                </div>
+            </t>
+            <t t-else="">
+                <div style="margin-bottom: 15px; text-align: center; color: red;">
+                    <h2>Немає даних про лікаря. Заповніть картку.</h2>
+                </div>
+            </t>
+
+            <t t-if="o.specialty">
+                <div style="margin-top: 10px;">
+                    <strong>Спеціалізація:</strong>
+                    <span t-esc="o.specialty"/>
+                </div>
+            </t>
+
+            <t t-if="o.category_id">
+                <div style="margin-top: 10px;">
+                    <strong>Кваліфікація:</strong>
+                    <span t-esc="o.category_id.name"/>
+                </div>
+            </t>
+
+            <t t-if="o.is_intern">
+                <div style="margin-top: 10px;">
+                    <strong>Статус:</strong> Інтерн
+                    <t t-if="o.mentor_id">
+                        | <strong>Ментор:</strong> <span t-esc="o.mentor_id.name"/>
+                    </t>
+                </div>
+            </t>
+        </div>
+    </template>
+
+    <!-- ───── Sub-template: visits table ───── -->
+    <template id="report_hr_hospital_doctor_visits_template">
+        <div style="max-width: 960px; margin: 20px auto; padding: 20px;
+                    border: 1px solid #ddd; border-radius: 10px;
+                    box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+            <h2 style="font-size: 18px; margin-bottom: 10px;">Історія візитів</h2>
+            <t t-set="visits" t-value="o.env['hr_hospital.visit'].search(
+                    [('doctor_id', '=', o.id)],
+                    order='visit_date desc, scheduled_date desc')"/>
+            <t t-set="state_labels" t-value="{
+                'planned':   'Заплановано',
+                'done':      'Завершено',
+                'cancelled': 'Скасовано'}"/>
+            <t t-if="visits">
+                <table class="table table-condensed" style="font-size: 13px;">
+                    <thead>
+                        <tr>
+                            <th>Дата візиту</th>
+                            <th>Запланована дата</th>
+                            <th>Пацієнт</th>
+                            <th>Хвороба</th>
+                            <th>Статус</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr t-foreach="visits" t-as="v"
+                            t-attf-style="background-color: {{ '#fff3cd' if v.state == 'planned' else ('#d1e7dd' if v.state == 'done' else '#f8d7da') }};">
+                            <td>
+                                <t t-if="v.visit_date">
+                                    <t t-esc="v.visit_date.strftime('%d.%m.%Y %H:%M')"/>
+                                </t>
+                            </td>
+                            <td>
+                                <t t-if="v.scheduled_date">
+                                    <t t-esc="v.scheduled_date.strftime('%d.%m.%Y %H:%M')"/>
+                                </t>
+                            </td>
+                            <td><t t-esc="v.patient_id.name"/></td>
+                            <td><t t-esc="v.disease_id.name or '—'"/></td>
+                            <td><t t-esc="state_labels.get(v.state, v.state)"/></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </t>
+            <p t-else="" style="color: #888; font-style: italic;">Візитів не знайдено.</p>
+        </div>
+    </template>
+
+    <!-- ───── Sub-template: patients table ───── -->
+    <template id="report_hr_hospital_doctor_patients_template">
+        <div style="max-width: 960px; margin: 20px auto; padding: 20px;
+                    border: 1px solid #ddd; border-radius: 10px;
+                    box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+            <h2 style="font-size: 18px; margin-bottom: 10px;">Пацієнти лікаря</h2>
+            <t t-set="patients" t-value="o.env['hr_hospital.visit'].search(
+                    [('doctor_id', '=', o.id)]).mapped('patient_id').sorted(
+                    key=lambda p: p.name)"/>
+            <t t-set="gender_labels" t-value="{'male': 'Чоловік', 'female': 'Жінка'}"/>
+            <t t-if="patients">
+                <table class="table table-condensed" style="font-size: 13px;">
+                    <thead>
+                        <tr>
+                            <th>ПІБ пацієнта</th>
+                            <th>Стать</th>
+                            <th>Дата народження</th>
+                            <th>Телефон</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr t-foreach="patients" t-as="p">
+                            <td><t t-esc="p.name"/></td>
+                            <td><t t-esc="gender_labels.get(p.gender, '—')"/></td>
+                            <td>
+                                <t t-if="p.birth_date">
+                                    <t t-esc="p.birth_date.strftime('%d.%m.%Y')"/>
+                                </t>
+                                <t t-else="">—</t>
+                            </td>
+                            <td><t t-esc="p.phone or '—'"/></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </t>
+            <p t-else="" style="color: #888; font-style: italic;">Пацієнтів не знайдено.</p>
+        </div>
+    </template>
+
+    <!-- ───── Sub-template: per-page footer ───── -->
+    <template id="report_hr_hospital_doctor_footer_template">
+        <div style="margin-top: 30px; padding-top: 8px;
+                    border-top: 1px solid #ccc;
+                    text-align: center; font-size: 11px; color: #666;">
+            Надруковано: <t t-esc="datetime.datetime.now().strftime('%d.%m.%Y %H:%M')"/>
+            <t t-if="o.env.company.city">
+                | <t t-esc="o.env.company.city"/>
+            </t>
+        </div>
+    </template>
+
+    <!-- ───── Main template – report 1 (company header + doctor card + footer) ───── -->
+    <template id="report_hr_hospital_doctor">
+        <t t-call="web.basic_layout">
+            <t t-foreach="docs" t-as="o">
+                <div class="row">
+                    <div style="font-size: 16px; padding: 15px;">
+                        <t t-call="hr_hospital.report_hr_hospital_doctor_company_template"/>
+                        <t t-call="hr_hospital.report_hr_hospital_doctor_info_template"/>
+                        <t t-call="hr_hospital.report_hr_hospital_doctor_footer_template"/>
+                    </div>
+                </div>
+            </t>
+        </t>
+    </template>
+
+    <!-- ───── Full template – report 2 (wraps main; visits + patients added below) ───── -->
+    <template id="report_hr_hospital_doctor_full">
+        <div class="container" name="doctor_report_full_block">
+            <t t-call="hr_hospital.report_hr_hospital_doctor"/>
+        </div>
+    </template>
+
+    <!-- ───── Extension of report 2 – injects visits + patients + footer ───── -->
+    <template id="report_hr_hospital_doctor_full_visits"
+              inherit_id="hr_hospital.report_hr_hospital_doctor_full">
+        <xpath expr="//div[@name='doctor_report_full_block']" position="inside">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="hr_hospital.report_hr_hospital_doctor_visits_template"/>
+                <t t-call="hr_hospital.report_hr_hospital_doctor_patients_template"/>
+                <t t-call="hr_hospital.report_hr_hospital_doctor_footer_template"/>
+            </t>
+        </xpath>
+    </template>
+
+</odoo>

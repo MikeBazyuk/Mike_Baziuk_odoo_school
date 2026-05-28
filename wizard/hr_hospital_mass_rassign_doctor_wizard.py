@@ -5,37 +5,36 @@ from odoo import fields, models
 _logger = logging.getLogger(__name__)
 
 
-class DiseaseReportWizard(models.TransientModel):
-    _name = 'hr_hospital.disease.report.wizard'
-    _description = 'Звіт по хворобах за місяць'
+class MassReassignDoctorWizard(models.TransientModel):
+    _name = 'mass.reassign.doctor.wizard'
+    _description = 'Масове перевизначення персонального лікаря'
 
-    doctor_ids = fields.Many2many(
+    new_doctor_id = fields.Many2one(
         comodel_name='hr_hospital.doctor',
-        string='Лікарі',
+        string='Новий лікар',
+        required=True,
     )
-    disease_ids = fields.Many2many(
-        comodel_name='hr_hospital.disease',
-        string='Хвороби',
+    change_date = fields.Date(
+        string='Дата зміни',
+        default=fields.Date.today,
     )
-    date_from = fields.Date(string='Дата з', required=True, default=lambda self: fields.Date.today().replace(day=1))
-    date_to = fields.Date(string='Дата по', required=True, default=fields.Date.today)
 
-    def action_generate_report(self):
-        domain = []
-        if self.doctor_ids:
-            domain.append(('doctor_id', 'in', self.doctor_ids.ids))
-        if self.disease_ids:
-            domain.append(('disease_id', 'in', self.disease_ids.ids))
-        if self.date_from:
-            domain.append(('visit_date', '>=', str(self.date_from) + ' 00:00:00'))
-        if self.date_to:
-            domain.append(('visit_date', '<=', str(self.date_to) + ' 23:59:59'))
-        return {
-            'type': 'ir.actions.act_window',
-            'name': 'Звіт по хворобах',
-            'res_model': 'hr_hospital.visit',
-            'view_mode': 'list,form',
-            'domain': domain,
-            'context': {'group_by': ['disease_id']},
-            'target': 'current',
-        }
+    def action_reassign(self):
+        active_ids = self._context.get('active_ids', [])
+        patients = self.env['hr_hospital.patient'].browse(active_ids)
+        for patient in patients:
+            active_histories = self.env['hospital.doctor.history'].search([
+                ('patient_id', '=', patient.id),
+                ('active', '=', True),
+            ])
+            active_histories.write({
+                'change_date': self.change_date,
+                'active': False,
+            })
+            self.env['hospital.doctor.history'].create({
+                'patient_id': patient.id,
+                'doctor_id': self.new_doctor_id.id,
+                'appointment_date': self.change_date,
+            })
+            patient.personal_doctor_id = self.new_doctor_id
+        return {'type': 'ir.actions.act_window_close'}

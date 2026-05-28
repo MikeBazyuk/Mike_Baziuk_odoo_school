@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <!-- ───── FORM ───── -->
     <record id="view_hr_hospital_patient_form" model="ir.ui.view">
         <field name="name">hr_hospital.patient.form</field>
         <field name="model">hr_hospital.patient</field>
@@ -51,7 +50,6 @@
         </field>
     </record>
 
-    <!-- ───── LIST ───── -->
     <record id="view_hr_hospital_patient_list" model="ir.ui.view">
         <field name="name">hr_hospital.patient.list</field>
         <field name="model">hr_hospital.patient</field>
@@ -65,7 +63,6 @@
         </field>
     </record>
 
-    <!-- ───── SEARCH ───── -->
     <record id="view_hr_hospital_patient_search" model="ir.ui.view">
         <field name="name">hr_hospital.patient.search</field>
         <field name="model">hr_hospital.patient</field>
@@ -79,7 +76,7 @@
                 <separator/>
                 <filter name="active" string="Активні"
                         domain="[('active', '=', True)]"/>
-                <group expand="0" string="Групувати за">
+                <group name="group_by">
                     <filter name="group_by_doctor" string="Персональний лікар"
                             context="{'group_by': 'personal_doctor_id'}"/>
                     <filter name="group_by_gender" string="Стать"
@@ -89,7 +86,6 @@
         </field>
     </record>
 
-    <!-- ───── ACTION ───── -->
     <record id="action_hr_hospital_patient" model="ir.actions.act_window">
         <field name="name">Пацієнти</field>
         <field name="res_model">hr_hospital.patient</field>

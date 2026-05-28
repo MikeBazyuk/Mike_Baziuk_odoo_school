@@ -11,6 +11,9 @@ Odoo School: Lesson 3 HR_Hospital
 Add Lesson4
 Odoo School: Lesson 4 HR_Hospital
 
+Add Lesson4
+Odoo School: Lesson 5 HR_Hospital
+
 Installation
 To install this module, you need to:
 

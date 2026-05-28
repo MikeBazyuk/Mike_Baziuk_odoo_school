@@ -22,9 +22,7 @@ class DoctorHistory(models.Model):
         ondelete='restrict',
     )
     appointment_date = fields.Date(
-        string='Дата призначення',
-        required=True,
-        default=fields.Date.today,
+        string='Дата призначення', required=True, default=fields.Date.today,
     )
     change_date = fields.Date(string='Дата зміни лікаря')
     active = fields.Boolean(string='Активний', default=True)
@@ -40,6 +38,7 @@ class DoctorHistory(models.Model):
             }
         return None
 
+    @api.depends('patient_id.name', 'doctor_id.name', 'doctor_id.category_id.name', 'appointment_date')
     def _compute_display_name(self):
         for rec in self:
             patient = rec.patient_id.name or ''

@@ -26,6 +26,11 @@ class Doctor(models.Model):
         compute='_compute_is_intern',
         store=True,
     )
+    is_mentor = fields.Boolean(
+        string='Є ментором',
+        compute='_compute_is_mentor',
+        store=True,
+    )
     mentor_id = fields.Many2one(
         comodel_name='hr_hospital.doctor',
         string='Ментор',
@@ -44,8 +49,13 @@ class Doctor(models.Model):
         for doctor in self:
             doctor.is_intern = bool(intern_cat and doctor.category_id == intern_cat)
 
+    @api.depends('intern_ids')
+    def _compute_is_mentor(self):
+        for doctor in self:
+            doctor.is_mentor = bool(doctor.intern_ids)
+
     @api.constrains('mentor_id')
     def _check_mentor_not_intern(self):
         for doctor in self:
             if doctor.mentor_id and doctor.mentor_id.is_intern:
-                raise ValidationError('Ментором не може бути лікар-інтерн.')
+                raise ValidationError("Ментором не може бути лікар-інтерн.")
